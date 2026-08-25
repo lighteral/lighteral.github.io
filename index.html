@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator!</title>
+        <style>
+            body {
+                display: grid;
+                place-items: center;
+                height: 100vh;
+                background-color: aliceblue;
+                font-family:'Lucida Sans';
+            }
+            .main{
+                position: absolute;
+                
+                border-radius: 10px;
+                background-color: lightblue;
+                font-family:'Lucida Sans';
+                box-shadow: 5px 5px 0px 0px darkcyan;
+                border: 1px solid black;
+            }
+            #display{
+                margin-top: 5px;
+                width: 155px;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: aliceblue;
+                border: 1px solid black;
+                color: darkcyan;
+                font-family:'Lucida Sans';
+                font-weight: bold;
+                box-shadow: 2px 2px 0px 0px darkcyan;
+            }
+            .main button {
+                width: 40px;
+                height: 40px;
+                padding: 10px;
+                border-radius: 5px;
+                background-color: aliceblue;
+                border: 1px solid black;
+                color: darkcyan;
+                font-family:'Lucida Sans';
+                font-weight: bold;
+                box-shadow: 2px 2px 0px 0px darkcyan;
+            }
+            .main button:hover {
+                background-color: lightblue;
+                color: darkblue;
+            }
+            #display:hover {
+                background-color: lightblue;
+                color: darkblue;
+            }
+            .row{
+                clear: both;
+                margin-top: 5px;
+            }
+            .header{
+                cursor: move;
+                padding: 5px;
+                padding-bottom: 10px;
+                text-align: center;
+                border-top-left-radius: 9px;
+                border-top-right-radius: 9px;
+                background-color:aliceblue;
+                font-family:'Lucida Sans';
+                font-weight: bold;
+            }
+            .everything{
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main" id="calc">
+            <div class="header" id="calcheader">
+                Calculator
+            </div>
+            <div class="everything">
+                <input type="text" id="display">
+                <div class="row">
+                    <button onclick="appendValue('/')">/</button>
+                    <button onclick="appendValue('*')">x</button>
+                    <button onclick="appendValue('-')">-</button>
+                    <button onclick="appendValue('+')">+</button>
+                </div>
+
+                <div class="row">
+                    <button onclick="appendValue('7')">7</button>
+                    <button onclick="appendValue('8')">8</button>
+                    <button onclick="appendValue('9')">9</button>
+                    <button onclick="clearDisplay()">C</button>
+                </div>
+
+                <div class="row">
+                    <button onclick="appendValue('4')">4</button>
+                    <button onclick="appendValue('5')">5</button>
+                    <button onclick="appendValue('6')">6</button>
+                </div>
+
+                <div class="row">
+                    <button onclick="appendValue('1')">1</button>
+                    <button onclick="appendValue('2')">2</button>
+                    <button onclick="appendValue('3')">3</button>
+                </div>
+
+                <div class="row">
+                    <button onclick="appendValue('.')">.</button>
+                    <button onclick="appendValue('0')">0</button>
+                    <button onclick="calculate()">=</button>
+                </div>
+            </div>
+        </div>
+        <script>
+        const display = document.getElementById('display');
+        function appendValue(value) {
+            display.value += value;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function calculate() {
+            try {
+                if (display.value === '') return;
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+        ///
+        // //Make the DIV element draggagle:
+            dragElement(document.getElementById("calc"));
+
+            function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+                /* if present, the header is where you move the DIV from:*/
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+            } else {
+                /* otherwise, move the DIV from anywhere inside the DIV:*/
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                /* stop moving when mouse button is released:*/
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+            }
+        </script>
+    </body>
+</html>
